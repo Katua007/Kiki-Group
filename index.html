@@ -16,10 +16,12 @@
     h2 {color:#004d00;margin-bottom:20px;position:relative;}
     h2::after {content:'';position:absolute;bottom:-5px;left:0;width:50px;height:3px;background:#d4af37;}
     .grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
-    .carousel {overflow:hidden;}
-    .carousel-inner {display:flex; animation: slide 20s infinite linear;}
-    .carousel:hover .carousel-inner {animation-play-state:paused;}
-    @keyframes slide {0% {transform:translateX(0);} 100% {transform:translateX(-50%);}}
+    .carousel {overflow:hidden; position:relative;}
+    .carousel-inner {display:flex; transition: transform 0.5s ease;}
+    .carousel-btn {position:absolute; top:50%; transform:translateY(-50%); background:#d4af37; color:#000; border:none; padding:10px; cursor:pointer; font-size:18px; border-radius:50%; width:40px; height:40px; z-index:10;}
+    .carousel-btn.prev {left:10px;}
+    .carousel-btn.next {right:10px;}
+    .carousel-btn:hover {background:#b8941f;}
     .card {flex-shrink:0; width:250px; margin-right:20px;}
     img {max-width:100%;height:auto;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
     .card {background:#fff;padding:25px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,0.1);border-left:5px solid #d4af37;}
@@ -58,7 +60,8 @@
 </section><section id="services">
     <h2>Our Core Services</h2>
    <div class="carousel">
-     <div class="carousel-inner">
+     <button class="carousel-btn prev" onclick="moveCarousel(-1)">&#10094;</button>
+     <div class="carousel-inner" id="carousel-inner">
        <div class="card">Building & Civil Construction</div>
        <div class="card">Precast Construction Systems</div>
        <div class="card">Real Estate Development & Agency</div>
@@ -76,6 +79,7 @@
        <div class="card">Precast Construction Systems</div>
        <div class="card">Real Estate Development & Agency</div>
      </div>
+     <button class="carousel-btn next" onclick="moveCarousel(1)">&#10095;</button>
    </div>
 </section><section id="diaspora">
    <h2>Diaspora & Investor Solutions</h2>
@@ -127,5 +131,21 @@
 <a href="#" class="back-to-top">↑ Top</a>
 <footer>
   <p>© 2026 Kiki Group. All Rights Reserved.</p>
-</footer></body>
+</footer>
+<script>
+let currentIndex = 0;
+const totalCards = 13;
+const cardWidth = 270; // 250px width + 20px margin
+
+function moveCarousel(direction) {
+  currentIndex += direction;
+  if (currentIndex < 0) currentIndex = totalCards - 1;
+  if (currentIndex >= totalCards) currentIndex = 0;
+  const carouselInner = document.getElementById('carousel-inner');
+  carouselInner.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+}
+
+// Auto rotate every 3 seconds
+setInterval(() => moveCarousel(1), 3000);
+</script></body>
 </html>
